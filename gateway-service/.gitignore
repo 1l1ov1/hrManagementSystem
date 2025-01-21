@@ -3,11 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-# 忽略敏感密钥文件
-iv.key
-secretKey.key
-# 忽略日志
-logs/
+
 ### STS ###
 .apt_generated
 .classpath

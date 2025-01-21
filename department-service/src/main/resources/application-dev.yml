@@ -1,0 +1,12 @@
+mysql:
+  username: root
+  password: 123456
+  host: 192.168.122.129
+  database: department-service
+
+swagger:
+  title: "人事管理系统组织服务接口文档"
+  description: "人事管理系统组追服务接口文档"
+  contact: 万一苇
+  version: 1.0.0
+  resource: com.wan.departmentservice.controller

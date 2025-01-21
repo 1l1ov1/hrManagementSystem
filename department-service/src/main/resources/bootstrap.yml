@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: department-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.122.129:8848
+      discovery:
+        #服务注册到哪个命名空间
+        namespace: 0d663d31-a634-46a0-84dd-5b799be08930
+      config:
+        file-extension: yml
+        #服务从哪个命名空间拉取配置
+        namespace: 0d663d31-a634-46a0-84dd-5b799be08930
+        #配置文件所在分组
+        shared-configs:
+          - data-id: shared-mysql.yml
+          - data-id: shared-log.yml
+          - data-id: shared-swagger.yml

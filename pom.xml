@@ -4,9 +4,28 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wan</groupId>
     <artifactId>HrManagementSystem</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <!--Maven父工程必须遵循以下两点
+    1. packaging必须为pom 默认是jar
+    2. 把src删除掉-->
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
     <name>HrManagementSystem</name>
     <description>HrManagementSystem</description>
+    <!--Maven多模块管理就是让子模块pom继承父模块的pom-->
+    <modules>
+        <module>common-service</module>
+        <module>user-service</module>
+        <module>gateway-service</module>
+        <module>department-service</module>
+        <module>api-service</module>
+    </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.6</version>
+        <relativePath/>
+    </parent>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,17 +34,20 @@
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <mysql.version>8.0.23</mysql.version>
-        <mybaitis-plus.version>3.5.2</mybaitis-plus.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <redis.version>3.16.3</redis.version>
         <lombok.version>1.18.20</lombok.version>
+        <hutool.version>5.8.16</hutool.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -42,7 +64,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybaitis-plus.version}</version>
+                <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
@@ -52,7 +74,7 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>5.8.16</version>
+                <version>${hutool.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
