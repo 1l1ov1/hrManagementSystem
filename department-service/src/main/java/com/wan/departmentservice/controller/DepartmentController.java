@@ -3,6 +3,7 @@ package com.wan.departmentservice.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wan.commonservice.domain.dto.PageDTO;
 import com.wan.commonservice.domain.vo.Result;
+import com.wan.commonservice.enums.ResponseStatusCodeEnum;
 import com.wan.departmentservice.domain.dto.DepartmentDTO;
 import com.wan.departmentservice.domain.po.Department;
 import com.wan.departmentservice.domain.vo.DepartmentVo;
@@ -48,5 +49,17 @@ public class DepartmentController {
     public Result getDepartmentsWithEnabled() {
         List<DepartmentVo> departmentVoList = departmentService.getDepartmentsWithEnabled();
         return Result.success(departmentVoList);
+    }
+
+    @GetMapping("/getDepartmentDetail/{id}")
+    public Result getDepartmentDetail(@PathVariable Long id) {
+        DepartmentVo departmentVo = departmentService.getDepartmentById(id);
+        return Result.success(departmentVo);
+    }
+
+    @DeleteMapping("/delete")
+    public Result deleteDepartments(@RequestParam List<Long> ids) {
+        Boolean result = departmentService.deleteDepartments(ids);
+        return result ? Result.success() : Result.fail(ResponseStatusCodeEnum.DELETE_IS_FAIL);
     }
 }

@@ -18,8 +18,8 @@ public class DepartmentDTO {
     @ApiModelProperty(value = "部门描述", example = "负责产品研发", required = true)
     private String description;
 
-    @ApiModelProperty(value = "父部门名称", required = false)
-    private String parentDepartmentName;
+    @ApiModelProperty(value = "父部门Id", required = false)
+    private Long parentId;
 
     @ApiModelProperty(value = "是否启用", example = "true", required = true)
     private Boolean isEnabled;
