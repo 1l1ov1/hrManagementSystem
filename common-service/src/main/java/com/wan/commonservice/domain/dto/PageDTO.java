@@ -56,7 +56,7 @@ public class PageDTO {
         // 设置排序方向
         orderItem.setAsc(isAsc);
         // 设置排序字段
-        orderItem.setColumn(sortBy);
+        orderItem.setColumn(toMapSqlColumn(sortBy));
         // 将排序信息添加到分页对象中
         page.addOrder(orderItem);
         // 返回设置了分页和排序信息的分页对象
@@ -70,4 +70,25 @@ public class PageDTO {
     public <T> Page<T> toMapPageDefaultSortByCreateTime(boolean isAsc) {
         return toMapPage("create_time", isAsc);
     }
+
+    /**
+     * 将字段转换为数据库中的列名
+     * @param column 字段名
+     * @return 数据库中的列名
+     */
+    private String toMapSqlColumn(String column) {
+    // 使用 StringBuilder 来构建新的字符串
+    StringBuilder sqlColumn = new StringBuilder();
+    for (int i = 0; i < column.length(); i++) {
+        char c = column.charAt(i);
+        // 如果是大写字母且不是第一个字符，则在前面加下划线
+        if (Character.isUpperCase(c) && i != 0) {
+            sqlColumn.append('_');
+        }
+        // 将当前字符转换为小写并添加到结果中
+        sqlColumn.append(Character.toLowerCase(c));
+    }
+    return sqlColumn.toString();
+}
+
 }

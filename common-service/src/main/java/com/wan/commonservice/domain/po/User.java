@@ -1,21 +1,20 @@
-package com.wan.userservice.domain.po;
+package com.wan.commonservice.domain.po;
 
-import com.wan.userservice.enums.AccountStatus;
-import com.wan.userservice.enums.OnboardingStatus;
-import com.wan.userservice.enums.OnlineStatus;
-import com.wan.userservice.enums.Sex;
+import com.wan.commonservice.enums.AccountStatus;
+import com.wan.commonservice.enums.OnboardingStatus;
+import com.wan.commonservice.enums.OnlineStatus;
+import com.wan.commonservice.enums.Sex;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -57,7 +56,8 @@ public class User {
 
     @ApiModelProperty(value = "角色ID")
     private Long roleId;
-
+    @ApiModelProperty(value = "部门ID")
+    private Long departmentId;
     @ApiModelProperty(value = "账号状态")
     private AccountStatus accountStatus;
     @ApiModelProperty(value = "在线状态")

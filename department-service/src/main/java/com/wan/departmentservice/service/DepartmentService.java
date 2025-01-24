@@ -41,4 +41,11 @@ public interface DepartmentService {
      * @return 返回分页结果
      */
     Page<DepartmentVo> pageQuery(PageDTO pageDTO);
+
+    /**
+     * 删除部门
+     * @param ids 部门的集合
+     * @return 返回是否删除成功
+     */
+    Boolean deleteDepartments(List<Long> ids);
 }
