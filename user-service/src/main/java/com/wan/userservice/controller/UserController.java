@@ -2,6 +2,7 @@ package com.wan.userservice.controller;
 
 
 import cn.hutool.core.util.ObjectUtil;
+import com.wan.commonservice.domain.po.User;
 import com.wan.commonservice.domain.vo.Result;
 import com.wan.commonservice.enums.ResponseStatusCodeEnum;
 import com.wan.userservice.domain.dto.UserDTO;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +47,11 @@ public class UserController {
     @ApiOperation(value = "获取创建者名称 供其他微服务远程调用")
     public Map<Long, String> getCreatorNames(@RequestBody List<Long> creatorIds) {
         return userService.getCreatorNames(creatorIds);
+    }
+
+    @PostMapping("/getUsersByDepartmentId")
+    @ApiOperation(value = "根据部门id查询用户")
+    Map<Long, List<User>> findUsersByDepartmentId(@RequestBody Collection<Long> departmentIds) {
+       return userService.findUsersByDepartmentIds(departmentIds);
     }
 }

@@ -1,9 +1,9 @@
 package com.wan.userservice.domain.vo;
 
-import com.wan.userservice.enums.AccountStatus;
-import com.wan.userservice.enums.OnboardingStatus;
-import com.wan.userservice.enums.OnlineStatus;
-import com.wan.userservice.enums.Sex;
+import com.wan.commonservice.enums.AccountStatus;
+import com.wan.commonservice.enums.OnboardingStatus;
+import com.wan.commonservice.enums.OnlineStatus;
+import com.wan.commonservice.enums.Sex;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

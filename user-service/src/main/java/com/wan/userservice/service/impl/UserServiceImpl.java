@@ -1,16 +1,18 @@
 package com.wan.userservice.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wan.commonservice.domain.po.User;
 import com.wan.commonservice.enums.ResponseStatusCodeEnum;
 import com.wan.commonservice.exception.ArgumentNullException;
 import com.wan.commonservice.exception.AuthenticationException;
 import com.wan.userservice.domain.dto.UserDTO;
-import com.wan.userservice.domain.po.User;
+
 import com.wan.userservice.domain.vo.UserVo;
-import com.wan.userservice.enums.AccountStatus;
+import com.wan.commonservice.enums.AccountStatus;
 import com.wan.userservice.mapper.UserMapper;
 import com.wan.userservice.service.UserService;
 import com.wan.userservice.utils.AESUtil;
@@ -124,6 +126,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 ));
     }
 
+    @Override
+    public Map<Long, List<User>> findUsersByDepartmentIds(Collection<Long> departmentIds) {
+        if (CollectionUtil.isEmpty(departmentIds)) {
+            throw new ArgumentNullException("部门ID列表不能为空");
+        }
+        // 如果说不空，就去查找对应的用户信息
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(User::getDepartmentId, departmentIds);
+        // 全部的用户
+        List<User> users = userMapper.selectList(lambdaQueryWrapper);
+        // 然后转换成map
+        return users.stream()
+                .collect(Collectors.groupingBy(User::getDepartmentId));
+    }
 
     private void checkStatusAndPassword(UserDTO userDTO, User user) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
         // 如果用户不存在，抛出异常提示用户未找到
