@@ -48,4 +48,11 @@ public interface DepartmentService {
      * @return 返回是否删除成功
      */
     Boolean deleteDepartments(List<Long> ids);
+
+    /**
+     *
+     * @param departmentDTO
+     * @return
+     */
+    boolean updateDepartment(DepartmentDTO departmentDTO);
 }
