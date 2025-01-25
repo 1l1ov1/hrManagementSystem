@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<Long, List<User>> findUsersByDepartmentIds(Collection<Long> departmentIds) {
         if (CollectionUtil.isEmpty(departmentIds)) {
-            throw new ArgumentNullException("部门ID列表不能为空");
+            return Collections.emptyMap();
         }
         // 如果说不空，就去查找对应的用户信息
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
