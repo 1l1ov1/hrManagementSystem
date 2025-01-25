@@ -62,4 +62,10 @@ public class DepartmentController {
         Boolean result = departmentService.deleteDepartments(ids);
         return result ? Result.success() : Result.fail(ResponseStatusCodeEnum.DELETE_IS_FAIL);
     }
+
+    @PutMapping("/update")
+    public Result updateDepartment(@RequestBody DepartmentDTO departmentDTO) {
+        departmentService.updateDepartment(departmentDTO);
+        return Result.success();
+    }
 }
