@@ -28,6 +28,10 @@ public enum ResponseStatusCodeEnum {
     OBJECT_IS_EXIST(605, "对象已存在"),
     DELETE_IS_FAIL(606, "删除失败"),
     OBJECT_NOT_FOUNT(607, "对象不存在");
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     private final int code;
     private final String description;
 

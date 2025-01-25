@@ -19,4 +19,8 @@ public class ObjectNotFoundException extends CommonException{
     public ObjectNotFoundException(String message) {
         super(message, ResponseStatusCodeEnum.OBJECT_NOT_FOUNT);
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

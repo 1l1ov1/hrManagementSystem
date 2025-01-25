@@ -1,10 +1,18 @@
 package com.wan.commonservice.domain.po;
 
+<<<<<<< Updated upstream
 import com.wan.commonservice.enums.AccountStatus;
 import com.wan.commonservice.enums.OnboardingStatus;
 import com.wan.commonservice.enums.OnlineStatus;
 import com.wan.commonservice.enums.Sex;
 
+=======
+
+import com.wan.userservice.enums.AccountStatus;
+import com.wan.userservice.enums.OnboardingStatus;
+import com.wan.userservice.enums.OnlineStatus;
+import com.wan.userservice.enums.Sex;
+>>>>>>> Stashed changes
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -85,5 +93,9 @@ public class User {
     @ApiModelProperty(value = "创建者Id")
     @NotBlank(message = "创建者Id不能为空")
     private Long creatorId;
+<<<<<<< Updated upstream
 }
 
+=======
+}
+>>>>>>> Stashed changes
