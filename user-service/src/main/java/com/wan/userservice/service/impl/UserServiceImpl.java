@@ -129,7 +129,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<Long, List<User>> findUsersByDepartmentIds(Collection<Long> departmentIds) {
         if (CollectionUtil.isEmpty(departmentIds)) {
+<<<<<<< Updated upstream
             return Collections.emptyMap();
+=======
+            throw new ArgumentNullException("部门ID列表不能为空");
+>>>>>>> Stashed changes
         }
         // 如果说不空，就去查找对应的用户信息
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -140,7 +144,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return users.stream()
                 .collect(Collectors.groupingBy(User::getDepartmentId));
     }
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
     private void checkStatusAndPassword(UserDTO userDTO, User user) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
         // 如果用户不存在，抛出异常提示用户未找到
         if (ObjectUtil.isNull(user)) {
