@@ -10,3 +10,8 @@ swagger:
   contact: 万一苇
   version: 1.0.0
   resource: com.wan.departmentservice.controller
+
+redis:
+  host: 192.168.122.129
+  port: 6379
+  database: 1

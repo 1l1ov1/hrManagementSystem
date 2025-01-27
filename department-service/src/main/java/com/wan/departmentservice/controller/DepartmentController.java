@@ -65,7 +65,12 @@ public class DepartmentController {
 
     @PutMapping("/update")
     public Result updateDepartment(@RequestBody DepartmentDTO departmentDTO) {
+<<<<<<< Updated upstream
         departmentService.updateDepartment(departmentDTO);
         return Result.success();
+=======
+        boolean res = departmentService.updateDepartment(departmentDTO);
+        return res ? Result.success() : Result.fail(ResponseStatusCodeEnum.UPDATE_IS_FAIL);
+>>>>>>> Stashed changes
     }
 }
