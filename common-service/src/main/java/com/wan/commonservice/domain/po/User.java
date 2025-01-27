@@ -1,24 +1,34 @@
-package com.wan.userservice.domain.vo;
+package com.wan.commonservice.domain.po;
 
 import com.wan.commonservice.enums.AccountStatus;
 import com.wan.commonservice.enums.OnboardingStatus;
 import com.wan.commonservice.enums.OnlineStatus;
 import com.wan.commonservice.enums.Sex;
+
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class UserVo {
+@AllArgsConstructor
+@NoArgsConstructor
+@Validated
+@ApiModel(description = "用户信息")
+public class User {
+
     @ApiModelProperty(value = "用户ID")
     private Long id;
 
     @ApiModelProperty(value = "工号")
     @NotBlank(message = "工号不能为空")
-    private String employeeId;
+    private Long employeeId;
 
     @ApiModelProperty(value = "员工姓名")
     @NotBlank(message = "员工姓名不能为空")
@@ -46,7 +56,8 @@ public class UserVo {
 
     @ApiModelProperty(value = "角色ID")
     private Long roleId;
-
+    @ApiModelProperty(value = "部门ID")
+    private Long departmentId;
     @ApiModelProperty(value = "账号状态")
     private AccountStatus accountStatus;
     @ApiModelProperty(value = "在线状态")
@@ -70,11 +81,9 @@ public class UserVo {
 
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
+
     @ApiModelProperty(value = "创建者Id")
     @NotBlank(message = "创建者Id不能为空")
     private Long creatorId;
-    @ApiModelProperty(value = "创建者姓名")
-    private String creatorName;
-    @ApiModelProperty(value = "token")
-    private String token;
 }
+

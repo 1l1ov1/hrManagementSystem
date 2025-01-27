@@ -18,3 +18,4 @@ spring:
           - data-id: shared-mysql.yml
           - data-id: shared-log.yml
           - data-id: shared-swagger.yml
+          - data-id: shared-redis.yml

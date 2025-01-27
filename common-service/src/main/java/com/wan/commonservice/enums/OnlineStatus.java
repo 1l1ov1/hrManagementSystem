@@ -1,4 +1,4 @@
-package com.wan.userservice.enums;
+package com.wan.commonservice.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
