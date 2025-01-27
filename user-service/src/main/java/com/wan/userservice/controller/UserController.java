@@ -14,7 +14,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< Updated upstream
 import java.util.Collection;
+=======
+<<<<<<< Updated upstream
+=======
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 import java.util.List;
 import java.util.Map;
 
@@ -29,12 +37,19 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登录")
-    public Result userLogin(@RequestBody UserDTO userDTO) {
-        UserVo userVo = userService.login(userDTO);
+    public Result userLogin(@RequestBody UserDTO userDTO, HttpServletRequest request) {
+        UserVo userVo = userService.login(userDTO, request);
         if (ObjectUtil.isNull(userVo)) {
             return Result.fail(ResponseStatusCodeEnum.RESULT_IS_NOT_EXIST, "用户不存在");
         }
         return Result.success(userVo);
+    }
+
+    @PostMapping("/logout/{id}")
+    @ApiOperation(value = "注销")
+    public Result userLogout(@PathVariable Long id) {
+        userService.logout(id);
+        return Result.success();
     }
 
     @PostMapping("/getCreatorName")

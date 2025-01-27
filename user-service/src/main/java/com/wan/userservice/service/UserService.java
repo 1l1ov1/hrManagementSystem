@@ -6,6 +6,7 @@ import com.wan.userservice.domain.dto.UserDTO;
 
 import com.wan.userservice.domain.vo.UserVo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public interface UserService extends IService<User> {
      * 登录
      * @return 返回userVo
      */
-    UserVo login(UserDTO userDTO);
+    UserVo login(UserDTO userDTO, HttpServletRequest request);
 
     /**
      * 根据创建者Id，获取创建者姓名
@@ -30,6 +31,11 @@ public interface UserService extends IService<User> {
      * @return 返回Map Key为创建者Id，Value为创建者姓名
      */
     Map<Long, String> getCreatorNames(Collection<Long> creatorIds);
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 
     /**
      * 查询部门下的所有用户
@@ -37,4 +43,14 @@ public interface UserService extends IService<User> {
      * @return 返回Map Key为部门Id，Value为部门下的所有用户
      */
     Map<Long, List<User>> findUsersByDepartmentIds(Collection<Long> departmentIds);
+<<<<<<< Updated upstream
+=======
+
+    /**
+     * 注销
+     * @param id 用户id
+     */
+    void logout(Long id);
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 }
