@@ -5,10 +5,21 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+<<<<<<< Updated upstream
 import com.wan.commonservice.domain.po.User;
+=======
+<<<<<<< Updated upstream
+=======
+import com.wan.commonservice.constant.RedisConstant;
+import com.wan.commonservice.domain.po.User;
+import com.wan.commonservice.enums.OnlineStatus;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 import com.wan.commonservice.enums.ResponseStatusCodeEnum;
 import com.wan.commonservice.exception.ArgumentNullException;
 import com.wan.commonservice.exception.AuthenticationException;
+import com.wan.commonservice.exception.ObjectNotFoundException;
+import com.wan.commonservice.untils.RedisUtil;
 import com.wan.userservice.domain.dto.UserDTO;
 
 import com.wan.userservice.domain.vo.UserVo;
@@ -21,11 +32,13 @@ import com.wan.userservice.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -34,6 +47,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserMapper userMapper;
 
     private final JwtUtil jwtUtil;
-
+    private final RedisTemplate<String, Object> redisTemplate;
     /**
      * 用户登录方法
      *
@@ -54,16 +68,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @throws RuntimeException        当登录过程中发生其他异常时抛出
      */
     @Override
-    public UserVo login(UserDTO userDTO) {
+    public UserVo login(UserDTO userDTO, HttpServletRequest request) {
         try {
             // 验证用户登录信息的合法性
             checkUserDTO(userDTO);
-
             // 构建查询条件，根据用户账号查询用户信息
             LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
             lambdaQueryWrapper.eq(User::getAccount, userDTO.getAccount());
             User user = userMapper.selectOne(lambdaQueryWrapper);
-
+            user.setOnlineStatus(OnlineStatus.ONLINE);
             // 检查用户的账号状态和密码
             checkStatusAndPassword(userDTO, user);
 
@@ -80,7 +93,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             // 为用户生成JWT令牌
             String token = jwtUtil.createToken(userVo.getId());
             userVo.setToken(token);
-
+            // 设置token到redis
+            RedisUtil.setRedisTemplate(redisTemplate);
+            RedisUtil.set(RedisConstant.USER_TOKEN + userVo.getId(), token, 1L, TimeUnit.HOURS);
             return userVo;
 
         } catch (AuthenticationException e) {
@@ -93,6 +108,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.error("Unexpected error during login: {}", e.getMessage(), e);
             throw new RuntimeException("登录失败，请重试");
         }
+    }
+
+    @Override
+    public void logout(Long id) {
+        User user = getById(id);
+        if (user == null) {
+            throw new ObjectNotFoundException("用户不存在");
+        }
+        // 如果说用户存在
+        user.setOnlineStatus(OnlineStatus.OFFLINE);
+        updateById(user);
     }
 
     @Override
