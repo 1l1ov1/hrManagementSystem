@@ -3,6 +3,7 @@ package com.wan.gatewayservice.filters;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.AntPathMatcher;
 import com.wan.commonservice.exception.UnauthorizedException;
+import com.wan.commonservice.untils.UserContext;
 import com.wan.gatewayservice.constant.AuthConstant;
 import com.wan.gatewayservice.domain.po.AuthProperty;
 import com.wan.gatewayservice.utils.JwtUtil;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
@@ -28,6 +30,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     private final JwtUtil jwtUtil;
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 得到请求
@@ -46,22 +49,26 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         }
         // 然后解析token
         Long userId = null;
-       try {
+        try {
             userId = jwtUtil.parseToken(token);
-       } catch (UnauthorizedException e) {
+            UserContext.setUserId(userId);
+        } catch (UnauthorizedException e) {
             // 如果说抛出了异常
-           // 结束请求，并回一个响应
-           ServerHttpResponse response = exchange.getResponse();
-           // 设置响应码
-           response.setStatusCode(HttpStatus.UNAUTHORIZED);
-           return response.setComplete();
-       }
+            // 结束请求，并回一个响应
+            ServerHttpResponse response = exchange.getResponse();
+            // 设置响应码
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return response.setComplete();
+        }
         // 如果说解析成功，就重新放到请求中
         String userIdToString = userId.toString();
         ServerWebExchange build = exchange.mutate().request(
                 builder -> builder.header(AuthConstant.AUTHORIZATION_HEADER, userIdToString)
         ).build();
-        return chain.filter(build);
+        return chain.filter(build).doFinally(singleType -> {
+            // 在请求结束后清空 ThreadLocal
+            UserContext.clear();
+        });
     }
 
     private boolean isExclude(String path) {
