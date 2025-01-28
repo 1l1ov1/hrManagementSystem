@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
+
 public class RedisCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
@@ -11,5 +12,6 @@ public class RedisCondition implements Condition {
         // 例如，检查配置文件中的某个属性是否存在或具有特定值
         String redisHost = context.getEnvironment().getProperty("redis.host");
         return redisHost != null && !redisHost.trim().isEmpty();
+
     }
 }

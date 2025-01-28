@@ -27,11 +27,9 @@ public enum ResponseStatusCodeEnum {
     ACCOUNT_LOCKED(604, "账号被锁定，请联系管理员"),
     OBJECT_IS_EXIST(605, "对象已存在"),
     DELETE_IS_FAIL(606, "删除失败"),
-    OBJECT_NOT_FOUNT(607, "对象不存在");
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
+    OBJECT_NOT_FOUNT(607, "对象不存在"),
+    UPDATE_IS_FAIL(608, "修改失败");
     private final int code;
     private final String description;
 
