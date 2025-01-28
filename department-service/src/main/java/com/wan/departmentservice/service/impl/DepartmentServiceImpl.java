@@ -192,31 +192,40 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             throw new ObjectNotFoundException("部门不存在");
         }
 
-
-        // 检查父部门是否存在
-
-/*        // 检查父部门是否存在
-        Long parentId = departmentDTO.getParentId();
-        if (parentId != null) {
-            Department parentDepartment = departmentMapper.selectById(parentId);
-            if (parentDepartment == null) {
-                throw new ObjectNotFoundException("父级部门不存在");
-            }
-
-        }
-        }*/
         // 要判断是否修改的部门名字已存在
         LambdaQueryWrapper<Department> lambdaQueryWrapper = new LambdaQueryWrapper<Department>();
-        lambdaQueryWrapper.eq(Department::getDepartName, departmentDTO.getDepartName());
-        // 如果说已经存在了，就不允许修改
-        if (ObjectUtil.isNotNull(departmentMapper.selectOne(lambdaQueryWrapper))) {
+        lambdaQueryWrapper.eq(Department::getDepartName, departmentDTO.getDepartName())
+                // 不是同一个部门
+                .ne(Department::getId, id);
+        // 得到数据库中的名称相同的部门
+        Department departmentInDB = departmentMapper.selectOne(lambdaQueryWrapper);
+
+        // 如果说二者不是同一个部门
+        if (departmentInDB != null) {
+            // 那么就抛错
             throw new ObjectExistedException("部门名称已经存在");
         }
+
+        // 如果说是同一个部门或者说部门名称不存在
         // 检查启用变禁用或逻辑删除
         if (isStatusChange(departmentDTO, department)) {
             Map<Long, List<User>> users = userClient.findUsersByDepartmentId(Collections.singletonList(id));
             if (users != null && !users.isEmpty() && users.get(id).isEmpty()) {
                 throw new ObjectExistedException("该部门存在员工，无法禁用");
+            }
+
+            // 还要看是否有子部门
+            LambdaQueryWrapper<Department> departmentLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            // 找子部门
+            departmentLambdaQueryWrapper.eq(Department::getParentId, id);
+            // 找子部门是否是启用 或者 找子部门是否是没有被逻辑删除
+            departmentLambdaQueryWrapper.and(wrapper -> wrapper
+                    .eq(Department::getIsEnabled, DepartmentStatusEnum.ENABLED.getValue())
+                    .or()
+                    .eq(Department::getIsDeleted, DepartmentStatusEnum.NOT_DELETED.getValue()));
+
+            if (departmentMapper.selectCount(departmentLambdaQueryWrapper) > 0) {
+                throw new ObjectExistedException("该部门存在正在启用的子部门，无法禁用或删除");
             }
         }
 
