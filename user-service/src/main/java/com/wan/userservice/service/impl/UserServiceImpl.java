@@ -5,16 +5,13 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-<<<<<<< Updated upstream
+
 import com.wan.commonservice.domain.po.User;
-=======
-<<<<<<< Updated upstream
-=======
+
 import com.wan.commonservice.constant.RedisConstant;
-import com.wan.commonservice.domain.po.User;
+
 import com.wan.commonservice.enums.OnlineStatus;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
 import com.wan.commonservice.enums.ResponseStatusCodeEnum;
 import com.wan.commonservice.exception.ArgumentNullException;
 import com.wan.commonservice.exception.AuthenticationException;
@@ -94,8 +91,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String token = jwtUtil.createToken(userVo.getId());
             userVo.setToken(token);
             // 设置token到redis
-            RedisUtil.setRedisTemplate(redisTemplate);
-            RedisUtil.set(RedisConstant.USER_TOKEN + userVo.getId(), token, 1L, TimeUnit.HOURS);
+            RedisUtil.valueSetWithExpire(redisTemplate,RedisConstant.USER_TOKEN + userVo.getId(), token);
             return userVo;
 
         } catch (AuthenticationException e) {
@@ -155,11 +151,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<Long, List<User>> findUsersByDepartmentIds(Collection<Long> departmentIds) {
         if (CollectionUtil.isEmpty(departmentIds)) {
-<<<<<<< Updated upstream
+
             return Collections.emptyMap();
-=======
-            throw new ArgumentNullException("部门ID列表不能为空");
->>>>>>> Stashed changes
         }
         // 如果说不空，就去查找对应的用户信息
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -170,11 +163,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return users.stream()
                 .collect(Collectors.groupingBy(User::getDepartmentId));
     }
-<<<<<<< Updated upstream
 
-=======
-    
->>>>>>> Stashed changes
     private void checkStatusAndPassword(UserDTO userDTO, User user) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
         // 如果用户不存在，抛出异常提示用户未找到
         if (ObjectUtil.isNull(user)) {

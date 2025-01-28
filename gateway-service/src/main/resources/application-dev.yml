@@ -5,5 +5,5 @@ jwt:
 auth:
   excludePaths:
     - /users/login
-    - /users/logout
+    - /users/logout/:id
   includePaths:

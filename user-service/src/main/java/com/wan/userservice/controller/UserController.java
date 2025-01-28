@@ -14,15 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< Updated upstream
 import java.util.Collection;
-=======
-<<<<<<< Updated upstream
-=======
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
 import java.util.List;
 import java.util.Map;
 
