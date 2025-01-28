@@ -191,26 +191,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         if (department == null) {
             throw new ObjectNotFoundException("部门不存在");
         }
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        // 检查父部门是否存在
-=======
-/*        // 检查父部门是否存在
->>>>>>> Stashed changes
-        Long parentId = departmentDTO.getParentId();
-        if (parentId != null) {
-            Department parentDepartment = departmentMapper.selectById(parentId);
-            if (parentDepartment == null) {
-                throw new ObjectNotFoundException("父级部门不存在");
-            }
-<<<<<<< Updated upstream
-        }
-
-=======
-        }*/
-=======
->>>>>>> Stashed changes
         // 要判断是否修改的部门名字已存在
         LambdaQueryWrapper<Department> lambdaQueryWrapper = new LambdaQueryWrapper<Department>();
         lambdaQueryWrapper.eq(Department::getDepartName, departmentDTO.getDepartName())
@@ -224,11 +204,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             // 那么就抛错
             throw new ObjectExistedException("部门名称已经存在");
         }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
         // 如果说是同一个部门或者说部门名称不存在
->>>>>>> Stashed changes
         // 检查启用变禁用或逻辑删除
         if (isStatusChange(departmentDTO, department)) {
             Map<Long, List<User>> users = userClient.findUsersByDepartmentId(Collections.singletonList(id));
