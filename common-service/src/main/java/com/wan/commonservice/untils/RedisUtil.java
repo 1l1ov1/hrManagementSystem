@@ -4,6 +4,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
 
+
 public class RedisUtil {
 
     private static final long timeout = 1L;
@@ -15,7 +16,7 @@ public class RedisUtil {
 
 
     public static void valueSetWithExpire(RedisTemplate<String, Object> redisTemplate, String key, Object value,
-                                        long timeout, TimeUnit unit) {
+                                          long timeout, TimeUnit unit) {
         valueSet(redisTemplate, key, value);
         expire(redisTemplate, key, timeout, unit);
     }
@@ -42,7 +43,7 @@ public class RedisUtil {
     }
 
     public static void setKeyWithExpire(RedisTemplate<String, Object> redisTemplate, String key, String value,
-                              long timeout, TimeUnit unit) {
+                                        long timeout, TimeUnit unit) {
         redisTemplate.opsForSet().add(key, value);
         expire(redisTemplate, key, timeout, unit);
     }
