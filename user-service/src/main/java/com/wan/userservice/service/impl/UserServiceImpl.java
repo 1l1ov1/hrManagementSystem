@@ -5,16 +5,13 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-<<<<<<< Updated upstream
+
 import com.wan.commonservice.domain.po.User;
-=======
-<<<<<<< Updated upstream
-=======
+
 import com.wan.commonservice.constant.RedisConstant;
-import com.wan.commonservice.domain.po.User;
+
 import com.wan.commonservice.enums.OnlineStatus;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
 import com.wan.commonservice.enums.ResponseStatusCodeEnum;
 import com.wan.commonservice.exception.ArgumentNullException;
 import com.wan.commonservice.exception.AuthenticationException;
@@ -94,7 +91,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String token = jwtUtil.createToken(userVo.getId());
             userVo.setToken(token);
             // 设置token到redis
-            RedisUtil.setRedisTemplate(redisTemplate);
+
             RedisUtil.set(RedisConstant.USER_TOKEN + userVo.getId(), token, 1L, TimeUnit.HOURS);
             return userVo;
 
